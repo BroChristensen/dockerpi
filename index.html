@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <style>
+        .grid-container {
+        display: grid;
+        grid-template-columns: repeat(3, auto);
+        background-color: #2196F3;
+        padding: 3% 1%;
+        gap: 1%;
+        padding-bottom: 10vh;            
+        }
+        .grid-item {
+        background-color: rgba(255, 255, 255, 0.8);
+        border: 1px solid rgba(0, 0, 0, 0.8);
+        margin: 2%;
+        padding: 3%;
+        font-size: 20px;
+        text-align: center;
+        }
+        .item-1{
+            grid-column: 1/7;
+            padding: 0;
+        }
+        .item-2{
+            grid-column: 2/3;
+        }
+        .item-3, .item-4, .item-5{
+            grid-row: 3/4;
+        } 
+
+        body {
+            background-color:rgb(72, 194, 235) ;
+            text-align: center;
+        }
+        canvas {
+                border:1px solid #d3d3d3;
+                background-color: #f1f1f1;
+            }
+        button{
+            margin: 15px;
+        }
+        @media only screen and (max-width: 768px) {
+            .grid-container {
+                grid-template-columns: 1fr;
+                padding-bottom: 20vh;
+            }
+            .grid-item{
+                font-size: 15px;
+            }
+            .item-2, .item-3, .item-4, .item-5{
+                grid-column: 1/2;
+                grid-row:unset;
+            }   
+       
+        }
+        </style>
+            <meta charset="utf-8">
+            <title>Pi webserver</title>
+
+            <meta name="viewport" content="width=device-width, initial-scale=1.0"/>        
+        </head>
+        <body onload="startGame()">
+            <br>
+            <button onmousedown="accelerate(-0.2)" onmouseup="accelerate(0.05)">ACCELERATE</button>
+            <p>Use the ACCELERATE button to stay in the air. 
+            How long can you stay alive? <a href="https://www.w3schools.com/graphics/tryit.asp?filename=trygame_gravity_game">This game is on W3schools</a></p>
+        </p>
+            <div class="grid-container">
+            <div class="grid-item item-1">
+                <h1>Linux, Docker running NGINX</h1>
+
+                <h3>Fun with Linux on a raspberry pi</h3>
+            
+            <p>This is a demonstration of a website that would be hosted on a server. This server is running ssh and docker on linux. <br>SSH is a secure shell - a way to remotely have a terminal.</p>
+          
+            <p>In your browser, go to http://10.15.0.12/ to see this page (make sure you are on BYUI_Visitor wifi) </p>         
+            </div>
+            <div class="grid-item item-2">
+                <h3>Log in to this server using SSH (Make sure you are connected to the BYUI_Visitor wifi network)</h3>
+                <p>In your terminal or powershell, type this:</p>
+                <p>ssh pi4@10.15.0.12</p>
+                <p>The password is: raspberry</p>
+                <p>Not yet, but if you want to exit your session, type "logout"</p>                  
+            </div>
+
+            <body onload="startGame()">
+          
+
+            <div class="grid-item item-3">
+            <h3>Make a file on the pi</h3>
+            <p>Make a new file yourname.html:</p>
+            <p>Type 'pwd' to see what folder you are in.</p>
+            <p>Make a directory 'mkdir yourfolder'.</p>
+            <p>Change directories into the folder with the 'cd' command:<p>
+            <p>cd yourfolder </p>
+            <p>Create a new file called yourname.html (put your name) and do it using the text editor VIM:</p>
+            <p>vi yourname.html</p>
+            <h3>Now you are using VIM or VI text editor. To edit the file:</h3>
+            <p>Type "i" to go into insert mode, which allows you to add text.</p>
+            <p>Type "My name is ....." (put your name).</p>
+            <p>To exit "insert" mode in VIM, hit ESC on your keyboard. Now type ":wq". That will save (write) and quit.</p>
+            <p>Type "ls" (list) see your list of files in that current directory</p>
+            </div>
+
+            <div class="grid-item item-4">
+            <h3>Copy this index.html file of these instructions and game to your computer:</h3>             
+            <p>In your terminal or powershell on your computer, type this but replace yourname with your file you made and the folder name of a folder on your computer:</p>
+            <p>mkdir pifolder</p>
+            <p>scp pi4@10.15.0.12:/home/pi4/yourfolder/yourname.html /pifolder</p>
+            
+            <h3>Run a docker image with your file:</h3>
+            <p>(Replace yourname-nginx with your real name and yourfolder with yours)<br>(Replace <strong>8080</strong> with 8001 to 8099, etc. in both your command below and the URL)</p>
+            <p>docker run --name <strong>yourname-nginx</strong> --mount type=bind,source=/home/pi4/<strong>yourfolder</strong>/,target=/usr/share/nginx/html,readonly -d -p <strong>8080</strong>:80 nginx</p>
+            <p>Now open a browser on your computer</p>
+            <p>Go to http://10.15.0.12:<strong>8080</strong>/yourname.html</p>
+            
+            <h3>Details on setup (already done)</h3>
+            <p>I installed PINN multiboot on this pi, and then 64 bit Raspberry pi linux lite and then docker</p>
+            <p>This is how to install docker:</p>
+            <p>curl -fsSL https://get.docker.com -o get-docker.sh</p>
+            <p>sudo sh get-docker.sh</p>
+            <p>This is how to get a webserver with nginx in docker:</p>
+            <p>docker pull nginx</p>
+
+            </div>
+
+            
+
+            <div class="grid-item item-5">
+            <h3>Another Day - (or now) - File permissions</h3>
+            <h3>SSH back in and change directories to the your folder again</h3>
+            <p>Now look at the file permissions:</p>
+            <p>Type "ls -l"</p>
+            <p>Notice the 3 "r's". The 'r' means read permissions on the file. The 'w' means write (edit) permissions. The 'x' means an executable file. The first letter, a 'd', means directory (or folder).</p>
+            <p>There are three sets of "rwx" - the first set is the owner of the files, the group, and then everyone else (others).</p>
+            <p>To remove access, type "chmod o-r yourname.html", which will remove read access for others.</p>
+            <p>Try loading the webpage again in your browser and it should say "Forbidden". You could add it back with "chmod o+r yourname.html", which will give read access back. You can also change permissions with 'x' for execute and 'w' for write (edit) access.</p>
+        </div>
+	<div>
+    </body>
+    <script>
+            
+        var myGamePiece;
+        var myObstacles = [];
+        var myScore;
+        
+        function startGame() {
+            myGamePiece = new component(30, 30, "red", 10, 120);
+            myGamePiece.gravity = 0.05;
+            myScore = new component("30px", "Consolas", "black", 280, 40, "text");
+            myGameArea.start();
+        }
+        
+        var myGameArea = {
+            canvas : document.createElement("canvas"),
+            start : function() {
+                this.canvas.width = 480;
+                this.canvas.height = 270;
+                this.context = this.canvas.getContext("2d");
+                document.body.prepend(this.canvas);
+                this.frameNo = 0;
+                this.interval = setInterval(updateGameArea, 20);
+                },
+            clear : function() {
+                this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+            }
+        }
+        
+        function component(width, height, color, x, y, type) {
+            this.type = type;
+            this.score = 0;
+            this.width = width;
+            this.height = height;
+            this.speedX = 0;
+            this.speedY = 0;    
+            this.x = x;
+            this.y = y;
+            this.gravity = 0;
+            this.gravitySpeed = 0;
+            this.update = function() {
+                ctx = myGameArea.context;
+                if (this.type == "text") {
+                    ctx.font = this.width + " " + this.height;
+                    ctx.fillStyle = color;
+                    ctx.fillText(this.text, this.x, this.y);
+                } else {
+                    ctx.fillStyle = color;
+                    ctx.fillRect(this.x, this.y, this.width, this.height);
+                }
+            }
+            this.newPos = function() {
+                this.gravitySpeed += this.gravity;
+                this.x += this.speedX;
+                this.y += this.speedY + this.gravitySpeed;
+                this.hitBottom();
+            }
+            this.hitBottom = function() {
+                var rockbottom = myGameArea.canvas.height - this.height;
+                if (this.y > rockbottom) {
+                    this.y = rockbottom;
+                    this.gravitySpeed = 0;
+                }
+            }
+            this.crashWith = function(otherobj) {
+                var myleft = this.x;
+                var myright = this.x + (this.width);
+                var mytop = this.y;
+                var mybottom = this.y + (this.height);
+                var otherleft = otherobj.x;
+                var otherright = otherobj.x + (otherobj.width);
+                var othertop = otherobj.y;
+                var otherbottom = otherobj.y + (otherobj.height);
+                var crash = true;
+                if ((mybottom < othertop) || (mytop > otherbottom) || (myright < otherleft) || (myleft > otherright)) {
+                    crash = false;
+                }
+                return crash;
+            }
+        }
+        
+        function updateGameArea() {
+            var x, height, gap, minHeight, maxHeight, minGap, maxGap;
+            for (i = 0; i < myObstacles.length; i += 1) {
+                if (myGamePiece.crashWith(myObstacles[i])) {
+                    return;
+                } 
+            }
+            myGameArea.clear();
+            myGameArea.frameNo += 1;
+            if (myGameArea.frameNo == 1 || everyinterval(150)) {
+                x = myGameArea.canvas.width;
+                minHeight = 20;
+                maxHeight = 200;
+                height = Math.floor(Math.random()*(maxHeight-minHeight+1)+minHeight);
+                minGap = 50;
+                maxGap = 200;
+                gap = Math.floor(Math.random()*(maxGap-minGap+1)+minGap);
+                myObstacles.push(new component(10, height, "green", x, 0));
+                myObstacles.push(new component(10, x - height - gap, "green", x, height + gap));
+            }
+            for (i = 0; i < myObstacles.length; i += 1) {
+                myObstacles[i].x += -1;
+                myObstacles[i].update();
+            }
+            myScore.text="SCORE: " + myGameArea.frameNo;
+            myScore.update();
+            myGamePiece.newPos();
+            myGamePiece.update();
+        }
+        
+        function everyinterval(n) {
+            if ((myGameArea.frameNo / n) % 1 == 0) {return true;}
+            return false;
+        }
+        
+        function accelerate(n) {
+            myGamePiece.gravity = n;
+        }
+        </script>
